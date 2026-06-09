@@ -61,7 +61,7 @@ Aplikasi E-Repository Manajemen adalah sistem manajemen dokumen digital yang dir
    python -m venv venv
    source venv/bin/activate  # Linux/Mac
    # atau
-   venv\Scripts\activate  # Windows
+   venv\\Scripts\\activate  # Windows
    ```
 
 3. Install dependencies:
