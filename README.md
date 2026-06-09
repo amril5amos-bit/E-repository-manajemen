@@ -1,122 +1,135 @@
 # E-Repository Manajemen
 
-Aplikasi E-Repository untuk manajemen dokumen digital dengan teknologi Python Flask, SQLite, Bootstrap 5, dan Chart.js.
+Aplikasi E-Repository Manajemen adalah sistem manajemen dokumen digital yang dirancang untuk mengelola berbagai jenis dokumen seperti skripsi, tesis, artikel jurnal, dan dokumen lainnya dengan fitur pencarian, download, dan manajemen pengguna.
 
 ## Fitur Utama
 
 ### 1. Dashboard
-- Total Dokumen, Pengguna, Download, dan Kategori
-- Grafik Upload Dokumen dan Pengunjung
-- Dokumen Terbaru dan Terpopuler
+- Total dokumen, pengguna, download, dan kategori
+- Grafik upload dokumen dan pengunjung
+- Dokumen terbaru dan terpopuler
 
 ### 2. Manajemen Pengguna
-- CRUD Pengguna
-- Role-Based Access Control (Admin, Operator, User)
-- Hak Akses Berbeda per Role
+- Kelola data pengguna (CRUD)
+- 3 Role: Administrator, Operator, User/Pengunjung
+- Hak akses berbeda untuk setiap role
 
 ### 3. Manajemen Repository
 - CRUD Dokumen
 - Upload PDF, DOCX, XLSX
-- Preview PDF dan Download
-- Cetak Metadata
+- Preview PDF
+- Download dokumen
 
 ### 4. Klasifikasi Dokumen
-- 12 Kategori Dokumen
-- Manajemen Kategori
+- 12 kategori dokumen
+- Filter berdasarkan kategori
 
 ### 5. Pencarian Dokumen
-- Pencarian berdasarkan Judul, Penulis, Kata Kunci
-- Filter Kategori
+- Pencarian sederhana: Judul, Penulis, Kata Kunci
 
-### 6. Statistik & Laporan
-- Statistik Upload, Download, Viewer
-- Grafik per Kategori
-- Export PDF, Excel, CSV
+### 6. Statistik dan Laporan
+- Statistik upload, download, viewer
+- Laporan dokumen dan pengguna
+- Export ke PDF, Excel, CSV
 
 ### 7. Keamanan
-- Autentikasi Login/Logout
-- Reset Password
-- Backup Database dan File
+- Autentikasi login
+- Reset password
+- Backup database
 
 ## Teknologi
 
-- **Backend**: Python Flask
-- **Database**: SQLite + SQLAlchemy
-- **Frontend**: Bootstrap 5
-- **Grafik**: Chart.js
-- **PDF Preview**: PDF.js
-- **Login**: Flask-Login
-- **Upload**: Flask-Upload
-- **Export Excel**: OpenPyXL
+- Backend: Python Flask
+- Database: SQLite
+- Frontend: Bootstrap 5
+- Grafik: Chart.js
+- PDF Preview: PDF.js
+- ORM: SQLAlchemy
+- Login: Flask-Login
+- Export: OpenPyXL
 
-## Setup & Instalasi
+## Instalasi
 
-```bash
-# 1. Clone repository
-git clone https://github.com/amril5amos-bit/e-repository-manajemen.git
-cd e-repository-manajemen
+1. Clone repository:
+   ```bash
+   git clone <repository-url>
+   cd e-repository-manajemen
+   ```
 
-# 2. Buat virtual environment
-python -m venv venv
-source venv/bin/activate  # Di Windows: venv\Scripts\activate
+2. Buat virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   # atau
+   venv\Scripts\activate  # Windows
+   ```
 
-# 3. Install dependencies
-pip install -r requirements.txt
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-# 4. Jalankan aplikasi
-python run.py
-```
+4. Set environment variables:
+   ```bash
+   cp .env.example .env
+   ```
 
-Aplikasi akan berjalan di `http://localhost:5000`
+5. Jalankan aplikasi:
+   ```bash
+   python run.py
+   ```
 
-## Default User
+6. Akses aplikasi di: `http://localhost:5000`
 
-- **Username**: admin
-- **Password**: admin123
+## Default Login
 
-## Struktur Project
+- Username: `admin`
+- Password: `admin123`
 
-```
-e-repository-manajemen/
-├── app/
-│   ├── __init__.py
-│   ├── models/
-│   │   ├── __init__.py
-│   │   ├── user.py
-│   │   ├── kategori.py
-│   │   ├── dokumen.py
-│   │   ├── download.py
-│   │   └── log_aktivitas.py
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── auth.py
-│   │   ├── dashboard.py
-│   │   ├── users.py
-│   │   ├── dokumen.py
-│   │   ├── kategori.py
-│   │   ├── search.py
-│   │   ├── reports.py
-│   │   └── backup.py
-│   ├── templates/
-│   │   ├── base.html
-│   │   ├── index.html
-│   │   ├── auth/
-│   │   ├── users/
-│   │   ├── dokumen/
-│   │   └── reports/
-│   ├── static/
-│   │   ├── css/
-│   │   ├── js/
-│   │   └── uploads/
-│   ├── utils/
-│   │   ├── __init__.py
-│   │   ├── decorators.py
-│   │   ├── helpers.py
-│   │   └── validators.py
-│   └── forms.py
-├── migrations/
-├── tests/
-├── config.py
-├── requirements.txt
-└── run.py
-```
+## Struktur Database
+
+### Tabel Users
+- id (INTEGER PRIMARY KEY)
+- nama (TEXT)
+- username (TEXT UNIQUE)
+- email (TEXT UNIQUE)
+- password (TEXT)
+- role (TEXT) - 'admin', 'operator', 'user'
+- jabatan (TEXT)
+- unit_kerja (TEXT)
+- created_at (DATETIME)
+
+### Tabel Kategori
+- id (INTEGER PRIMARY KEY)
+- nama_kategori (TEXT UNIQUE)
+- deskripsi (TEXT)
+
+### Tabel Dokumen
+- id (INTEGER PRIMARY KEY)
+- judul (TEXT)
+- penulis (TEXT)
+- abstrak (TEXT)
+- kata_kunci (TEXT)
+- kategori_id (INTEGER FOREIGN KEY)
+- tahun (INTEGER)
+- file_pdf (TEXT)
+- cover (TEXT)
+- status (TEXT) - 'draft', 'published'
+- created_at (DATETIME)
+- updated_at (DATETIME)
+
+### Tabel Download
+- id (INTEGER PRIMARY KEY)
+- dokumen_id (INTEGER FOREIGN KEY)
+- user_id (INTEGER FOREIGN KEY)
+- tanggal_download (DATETIME)
+
+### Tabel LogAktivitas
+- id (INTEGER PRIMARY KEY)
+- user_id (INTEGER FOREIGN KEY)
+- aktivitas (TEXT)
+- waktu (DATETIME)
+
+## Lisensi
+
+MIT
